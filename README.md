@@ -1,0 +1,1 @@
+# Tudasadatbazis-Projekt-SZTE
