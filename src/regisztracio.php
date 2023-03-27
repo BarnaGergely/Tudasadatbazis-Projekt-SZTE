@@ -1,6 +1,6 @@
 <?php
-include_once '../resources/functions/config.php';
-require_once('../resources/theme/header.php');
+include_once 'resources/functions/config.php';
+require_once('resources/theme/header.php');
 
 if (isset($_POST["login"])) {    // miután az űrlapot elküldték...
     if (!isset($_POST["felhasznalonev"]) || trim($_POST["felhasznalonev"]) === "" || !isset($_POST["jelszo"]) || trim($_POST["jelszo"]) === "") {
@@ -42,5 +42,5 @@ if (isset($_POST["login"])) {    // miután az űrlapot elküldték...
     </form>
 </div>
 <?php
-require_once('../resources/theme/footer.php');
+require_once('resources/theme/footer.php');
 ?>

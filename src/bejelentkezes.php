@@ -1,6 +1,6 @@
 <?php
-include_once './../resources/functions/config.php';
-require_once('../resources/theme/header.php');
+include_once 'resources/functions/config.php';
+require_once('resources/theme/header.php');
 ?>
 <div class="container">
     <form action="bejelentkezes.php" method="POST">
@@ -14,5 +14,5 @@ require_once('../resources/theme/header.php');
 </div>
 
 <?php
-require_once('../resources/theme/footer.php');
+require_once('resources/theme/footer.php');
 ?>

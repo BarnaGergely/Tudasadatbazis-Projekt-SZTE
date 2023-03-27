@@ -1,9 +1,6 @@
 </main>
 
-<footer class="text-center">
-    <hr>
-    <p>alma</p>
-</footer>
+<?php include "includes/navbar.php"; ?>
 
 <!-- Bootstrap core JavaScript
 ================================================== -->
