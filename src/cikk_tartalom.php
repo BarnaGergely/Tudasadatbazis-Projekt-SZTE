@@ -32,7 +32,7 @@ include "resources/functions/connect.php";
     <main>
             <?php
             if(isset($_GET["cikkID"])){
-                $array = oci_parse($conn, "SELECT cim,tartalom from CIKK where ID = 1");
+                $array = oci_parse($conn, "SELECT cim,tartalom from CIKK where ID = ".$_GET["cikkID"]);
                 oci_execute($array);
 
                 $row=oci_fetch_array($array);
