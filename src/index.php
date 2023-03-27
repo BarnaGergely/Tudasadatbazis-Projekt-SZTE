@@ -1,7 +1,5 @@
 <?php
-
 include "resources/functions/connect.php";
-
 ?>
 
 <!DOCTYPE html>
@@ -23,7 +21,7 @@ include "resources/functions/connect.php";
 <body>
     <header>
         <?php
-            include "includes/navbar.php";
+        include "includes/navbar.php";
         ?>
     </header>
 
@@ -37,10 +35,9 @@ include "resources/functions/connect.php";
         </div>
     </main>
 
-    <footer class="text-center">
-        <hr>
-        <p>alma</p>
-    </footer>
+    <?php
+    include "includes/footer.php";
+    ?>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
