@@ -52,12 +52,11 @@ include "resources/functions/connect.php";
         <ul>
             <?php
             if(isset($_GET["chK"])){
-                echo "SELECT cim from CIKK where ID in (select cikk_ID from KATEGORIA where kategoria like '".$_GET["chK"]."')";
-                $array = oci_parse($conn, "SELECT cim from CIKK where ID in (select cikk_ID from KATEGORIA where kategoria like '".$_GET["chK"]."')");
+                $array = oci_parse($conn, "SELECT ID,cim from CIKK where ID in (select cikk_ID from KATEGORIA where kategoria like '".$_GET["chK"]."')");
                 oci_execute($array);
                 while($row=oci_fetch_array($array))
                 {
-                    echo "<li>".$row[0]."</li>";    
+                    echo "<li><a href='cikk_tartalom.php?cikkID=".$row[0]."'>".$row[1]."</a></li>";    
                 }
             }
             
