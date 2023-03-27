@@ -6,6 +6,7 @@ function dbConnect()
     if (!$conn) {
         $m = oci_error();
         echo $m, "\n";
+        echo "Baj van";
         return null;
     } else {
         return $conn;
