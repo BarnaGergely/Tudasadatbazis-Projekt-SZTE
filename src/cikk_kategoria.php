@@ -43,7 +43,8 @@ include "resources/functions/config.php";
                         ?>
                     </select>
                 </div>
-                <input type="submit" value="szia">
+                <br>
+                <input type="submit" value="Kereses">
         </form>
     </main>
 
