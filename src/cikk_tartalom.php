@@ -1,7 +1,5 @@
 <?php
-
-include "resources/functions/connect.php";
-
+include "resources/functions/config.php";
 ?>
 
 <!DOCTYPE html>
@@ -24,24 +22,24 @@ include "resources/functions/connect.php";
     <header>
         <?php
 
-            include "includes/navbar.php";
+        include "includes/navbar.php";
         ?>
     </header>
 
 
     <main>
-            <?php
-            if(isset($_GET["cikkID"])){
-                $array = oci_parse($conn, "SELECT cim,tartalom from CIKK where ID = 1");
-                oci_execute($array);
+        <?php
+        if (isset($_GET["cikkID"])) {
+            $array = oci_parse($conn, "SELECT cim,tartalom from CIKK where ID = 1");
+            oci_execute($array);
 
-                $row=oci_fetch_array($array);
-                
-                echo "<h1>".$row[0]."</h1>";
-                echo "<p>".$row[1]->load()."</p>";                 
-            }
-            
-            ?>
+            $row = oci_fetch_array($array);
+
+            echo "<h1>" . $row[0] . "</h1>";
+            echo "<p>" . $row[1]->load() . "</p>";
+        }
+
+        ?>
     </main>
 
 

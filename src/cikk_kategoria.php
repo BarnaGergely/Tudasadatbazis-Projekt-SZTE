@@ -1,6 +1,6 @@
 <?php
 
-include "resources/functions/connect.php";
+include "resources/functions/config.php";
 
 ?>
 
@@ -24,7 +24,7 @@ include "resources/functions/connect.php";
     <header>
         <?php
 
-            include "includes/navbar.php";
+        include "includes/navbar.php";
         ?>
     </header>
 
@@ -34,32 +34,30 @@ include "resources/functions/connect.php";
                 <div class="chooseCategory">
                     <select name="chK">
                         <?php
-                        
+
                         $array = oci_parse($conn, "SELECT kategoria from KATEGORIA");
                         oci_execute($array);
-                        while($row=oci_fetch_array($array))
-                        {
-                            echo "<option value='".$row[0]."'> ".$row[0]."</option>";
+                        while ($row = oci_fetch_array($array)) {
+                            echo "<option value='" . $row[0] . "'> " . $row[0] . "</option>";
                         }
                         ?>
                     </select>
                 </div>
                 <input type="submit" value="szia">
-            </form>
+        </form>
     </main>
 
     <footer>
         <ul>
             <?php
-            if(isset($_GET["chK"])){
-                $array = oci_parse($conn, "SELECT ID,cim from CIKK where ID in (select cikk_ID from KATEGORIA where kategoria like '".$_GET["chK"]."')");
+            if (isset($_GET["chK"])) {
+                $array = oci_parse($conn, "SELECT ID,cim from CIKK where ID in (select cikk_ID from KATEGORIA where kategoria like '" . $_GET["chK"] . "')");
                 oci_execute($array);
-                while($row=oci_fetch_array($array))
-                {
-                    echo "<li><a href='cikk_tartalom.php?cikkID=".$row[0]."'>".$row[1]."</a></li>";    
+                while ($row = oci_fetch_array($array)) {
+                    echo "<li><a href='cikk_tartalom.php?cikkID=" . $row[0] . "'>" . $row[1] . "</a></li>";
                 }
             }
-            
+
             ?>
         </ul>
     </footer>
