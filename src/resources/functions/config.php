@@ -1,5 +1,5 @@
 <?php
-include "./databaseDAO.php";
+include "resources/functions/databaseDAO.php";
 
 // adatbázis kapcsolat létesítése
 $conn = dbConnect();

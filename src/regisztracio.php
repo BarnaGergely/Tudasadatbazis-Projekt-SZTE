@@ -2,28 +2,20 @@
 include_once 'resources/functions/config.php';
 require_once('resources/theme/header.php');
 
-if (isset($_POST["login"])) {    // miután az űrlapot elküldték...
-    if (!isset($_POST["felhasznalonev"]) || trim($_POST["felhasznalonev"]) === "" || !isset($_POST["jelszo"]) || trim($_POST["jelszo"]) === "") {
-        // ha a kötelezően kitöltendő űrlapmezők valamelyike üres, akkor hibaüzenetet jelenítünk meg
-        $uzenet = "<strong>Hiba:</strong> Adj meg minden adatot!";
-    } else {
-        // ha megfelelően kitöltötték az űrlapot, lementjük az űrlapadatokat egy-egy változóba
-        $felhasznalonev = $_POST["felhasznalonev"];
-        $jelszo = $_POST["jelszo"];
+if (isset($_POST["submit"])) {    // miután az űrlapot elküldték...
 
-        // bejelentkezés sikerességének ellenőrzése
-        $uzenet = "Sikertelen belépés! A belépési adatok nem megfelelők!";  // alapból azt feltételezzük, hogy a bejelentkezés sikertelen
+    $sql = 'INSERT INTO FELHASZNALO(ID, Felhasznalonev, jelszo, email) ' . 'VALUES(:id, :name, :passworld, :email)';
 
-        foreach ($fiokok as $fiok) {              // végigmegyünk a regisztrált felhasználókon
-            // a bejelentkezés pontosan akkor sikeres, ha az űrlapon megadott felhasználónév-jelszó páros megegyezik egy regisztrált felhasználó belépési adataival
-            // a jelszavakat hash alapján, a password_verify() függvénnyel hasonlítjuk össze
-            if ($fiok["felhasznalonev"] === $felhasznalonev && password_verify($jelszo, $fiok["jelszo"])) {
-                $uzenet = "Sikeres belépés!";        // ekkor átírjuk a megjelenítendő üzenet szövegét
-                break;                               // mivel találtunk illeszkedést, ezért a többi felhasználót nem kell megvizsgálnunk, kilépünk a ciklusból 
-            }
-        }
-    }
+    $compiled = oci_parse($db, $sql);
+
+    oci_bind_by_name($compiled, ':name', $_POST['username']);
+    oci_bind_by_name($compiled, ':passworld', $_POST['passworld']);
+    oci_bind_by_name($compiled, ':email', $_POST['email']);
+    oci_bind_by_name($compiled, ':id', 'NULL');
+
+    oci_execute($compiled);
 }
+
 
 ?>
 <div class="container">

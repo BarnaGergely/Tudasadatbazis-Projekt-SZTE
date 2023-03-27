@@ -6,6 +6,9 @@ function dbConnect()
     if (!$conn) {
         $m = oci_error();
         echo $m, "\n";
-        exit;
+        return null;
+    } else {
+        return $conn;
+        echo "Adatbázis kapcsolat él.";
     }
 }
