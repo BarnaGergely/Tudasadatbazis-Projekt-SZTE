@@ -29,20 +29,44 @@ include "resources/functions/connect.php";
     </header>
 
     <main>
-        <div class="container">
-            <h1>Tudásadatbázis</h1>
-            <div class="btn-group" role="group" aria-label="Basic outlined example">
-                <button type="button" class="btn btn-outline-primary">Legfrisebb cikkek</button>
-                <button type="button" class="btn btn-outline-primary">Bejelentkezés</button>
-            </div>
-        </div>
+        <form action="cikk_kategoria.php" method="get">
+            <div class="container">
+                <div class="chooseCategory">
+                    <select name="chK">
+                        <?php
+                        
+                        $array = oci_parse($conn, "SELECT kategoria from KATEGORIA");
+                        oci_execute($array);
+                        while($row=oci_fetch_array($array))
+                        {
+                            echo "<option value='".$row[0]."'> ".$row[0]."</option>";
+                        }
+                        ?>
+                    </select>
+                </div>
+                <input type="submit" value="szia">
+            </form>
     </main>
 
+    <footer>
+        <ul>
+            <?php
+            if(isset($_GET["chK"])){
+                echo "SELECT cim from CIKK where ID in (select cikk_ID from KATEGORIA where kategoria like '".$_GET["chK"]."')";
+                $array = oci_parse($conn, "SELECT cim from CIKK where ID in (select cikk_ID from KATEGORIA where kategoria like '".$_GET["chK"]."')");
+                oci_execute($array);
+                while($row=oci_fetch_array($array))
+                {
+                    echo "<li>".$row[0]."</li>";    
+                }
+            }
+            
+            ?>
+        </ul>
+    </footer>
 
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
 </body>
 

@@ -1,6 +1,6 @@
 <?php
 // Create connection to Oracle - rossz
-$conn = oci_connect("ADMIN", "FatalWiki2023", "tudasbazis_high");
+$conn = oci_connect("ADMIN", "FatalWiki2023", "tudasbazis_high",'AL32UTF8');
 if (!$conn) {
    $m = oci_error();
    echo $m, "\n";
@@ -9,4 +9,3 @@ if (!$conn) {
    print "Connected to Oracle!";
 }
 // Close the Oracle connection
-oci_close($conn);
