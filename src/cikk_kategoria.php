@@ -28,27 +28,30 @@ include "resources/functions/config.php";
         ?>
     </header>
 
-    <main>
+    <main class="container">
         <form action="cikk_kategoria.php" method="get">
             <div class="container">
-                <div class="chooseCategory">
-                    <select name="chK">
-                        <?php
+                <select name="chK">
+                    <?php
 
-                        $array = oci_parse($conn, "SELECT kategoria from KATEGORIA");
-                        oci_execute($array);
-                        while ($row = oci_fetch_array($array)) {
-                            echo "<option value='" . $row[0] . "'> " . $row[0] . "</option>";
+                    $array = oci_parse($conn, "SELECT kategoria from KATEGORIA GROUP BY kategoria");
+                    oci_execute($array);
+                    while ($row = oci_fetch_array($array)) {
+                        $selected = "";
+                        if (isset($_GET["chK"]) && ($_GET["chK"] == $row[0])) {
+                            $selected = "selected";
                         }
-                        ?>
-                    </select>
-                </div>
-                <br>
+                        echo "<option value='" . $row[0] . "'" . $selected . " > " . $row[0] . "</option>";
+                    }
+                    ?>
+                </select>
                 <input type="submit" value="Kereses">
+            </div>
         </form>
     </main>
 
-    <footer>
+    <footer class="container">
+        <hr>
         <ul>
             <?php
             if (isset($_GET["chK"])) {

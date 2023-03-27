@@ -7,10 +7,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
+                    <a class="nav-link active" aria-current="page" href="index.php">Főoldal</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -19,27 +16,21 @@
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="cikk_kategoria.php">Listázás</a></li>
                         <li><a class="dropdown-item disabled" href="#">Létrehozás</a></li>
-                        <li><a class="dropdown-item" href="#">Általam írt cikkek</a></li>
-                        <li><a class="dropdown-item" href="#">Ellenőrzésre váró cikkek</a></li>
+                        <li><a class="dropdown-item disabled" href="#">Általam írt cikkek</a></li>
+                        <li><a class="dropdown-item disabled" href="#">Ellenőrzésre váró cikkek</a></li>
                     </ul>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Felhasználók
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Listázás</a></li>
-                        <li><a class="dropdown-item disabled" href="#">Létrehozás</a></li>
-                    </ul>
+                <li class="nav-item">
+                    <a class="nav-link" href="felhasznalok.php">Felhasználók</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Profil
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Bejelentkezés</a></li>
-                        <li><a class="dropdown-item" href="#">Regisztráció</a></li>
-                        <li><a class="dropdown-item" href="#">Adataim módosítása</a></li>
+                        <li><a class="dropdown-item disabled" href="bejelentkezes.php">Bejelentkezés</a></li>
+                        <li><a class="dropdown-item" href="regisztracio.php">Regisztráció</a></li>
+                        <li><a class="dropdown-item disabled" href="profil.php">Adataim módosítása</a></li>
                     </ul>
                 </li>
             </ul>

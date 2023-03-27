@@ -27,7 +27,7 @@ include "resources/functions/config.php";
     </header>
 
 
-    <main>
+    <main class="container">
             <?php
             if(isset($_GET["cikkID"])){
                 $array = oci_parse($conn, "SELECT cim,tartalom from CIKK where ID = ".$_GET["cikkID"]);

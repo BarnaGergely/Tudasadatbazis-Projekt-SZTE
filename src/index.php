@@ -29,8 +29,8 @@ include "resources/functions/config.php";
         <div class="container">
             <h1>Tudásadatbázis</h1>
             <div class="btn-group" role="group" aria-label="Basic outlined example">
-                <button type="button" class="btn btn-outline-primary">Legfrisebb cikkek</button>
-                <button type="button" class="btn btn-outline-primary">Bejelentkezés</button>
+                <button type="button" class="btn btn-outline-primary">Cikkek</button>
+                <button type="button" class="btn btn-outline-primary">Felhasználók</button>
             </div>
         </div>
     </main>
