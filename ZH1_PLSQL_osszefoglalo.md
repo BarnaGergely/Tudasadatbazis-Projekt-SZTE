@@ -1,4 +1,21 @@
-# PL/SQL Összefpglaló az 1. ZH-hoz
+# PL/SQL az 1. ZH-hoz
+
+## Összefoglaló
+```sql
+SET SERVEROUTPUT ON -- kiiratás engedélyezése
+ACCEPT bejovo PROMPT; -- Adatbekérés a felhasználótól
+
+BLOKKNÉV
+    DECLARE -- változók, konstansok, függvények, eljárások
+
+    BEGIN -- programkód helye
+    adat := '&bejovo'; --eltároljuk a nevet egy változóban, hogy ne kelljen rá &-el hivatkozni
+        
+    EXCEPTION -- kivételek
+	
+END BLOKKNÉV;
+/ -- per jel zárja le a blokkot!!!!!!
+```
 
 ## Szintaxis
 
