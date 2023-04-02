@@ -109,6 +109,27 @@ BLOKKNÉV
         idx = tabla.NEXT; -- ha ide elért a vezésél van még sor a táblában, állítsuk hát be a következő indexét
      END LOOP
 
+
+EXCEPTION -- Ha dobódott a fentebb hiba (exception), ide ugrik a program. Itt lehet elkapni és lekezelni a hibákat.
+
+     WHEN DUP_VAL_ON_INDEX THAN 
+     	DBMS_OUTPUT.PUT_LINE('insert vagy update utasítással unique indexben már meglévő érték beszúrása (próbálsz kulcsot módosítani, de nem lehet)');
+	
+     WHEN TEMOUT_ON_RESOURCE THAN 
+     	DBMS_OUTPUT.PUT_LINE('időtúllépés miközben oracle erőforrásra várakozott');
+	
+     WHEN NO_DATA_FOUND THAN 
+     	DBMS_OUTPUT.PUT_LINE('a SELECT utasítás nem adott vissza sort');
+     
+     WHEN TOO_MANY_ROWS THAN 
+     	DBMS_OUTPUT.PUT_LINE('egy sort kellett volna visszaadni a SELECT utasításnak, de több sorral tért vissza');
+     
+     WHEN INVALID_NUMBER THAN 
+     	DBMS_OUTPUT.PUT_LINE('a karakterláncot nem sikerült számmá konvertálni');
+     
+     WHEN OTHERS THAN 
+     	DBMS_OUTPUT.PUT_LINE('az egyéb, az EXCEPTION részben fel nem sorolt kivételek lekezelésére szolgál');
+	
 	
 END BLOKKNÉV;
 / -- per jel zárja le a blokkot!!!!!!
