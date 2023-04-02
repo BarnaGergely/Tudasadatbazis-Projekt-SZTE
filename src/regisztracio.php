@@ -6,7 +6,7 @@ if (isset($_POST["submit"])) {    // miután az űrlapot elküldték...
 
     $sql = 'INSERT INTO FELHASZNALO( Felhasznalonev, jelszo, email) ' . 'VALUES( :name, :passworld, :email)';
 
-    $compiled = oci_parse($db, $sql);
+    $compiled = oci_parse($conn, $sql);
 
     oci_bind_by_name($compiled, ':name', $_POST['username']);
     oci_bind_by_name($compiled, ':passworld', $_POST['passworld']);

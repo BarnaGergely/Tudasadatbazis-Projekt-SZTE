@@ -1,6 +1,4 @@
-<?php
-include "resources/functions/config.php";
-?>
+<?php include "resources/functions/config.php"; ?>
 
 <!DOCTYPE html>
 <html lang="hu" data-bs-theme="dark">
@@ -20,9 +18,7 @@ include "resources/functions/config.php";
 
 <body>
     <header>
-        <?php
-        include "includes/navbar.php";
-        ?>
+        <?php include "includes/navbar.php"; ?>
     </header>
 
     <main>
@@ -35,9 +31,7 @@ include "resources/functions/config.php";
         </div>
     </main>
 
-    <?php
-    include "includes/footer.php";
-    ?>
+    <?php include "includes/footer.php"; ?>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
