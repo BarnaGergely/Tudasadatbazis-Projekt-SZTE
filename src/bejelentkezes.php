@@ -24,7 +24,18 @@ if (isset($_POST["login"])) {    // miután az űrlapot elküldték...
 
         // TODO: Rang lekérdezése és elmentése
 
-        $_SESSION["felhasznalo"] = ["felhasznalonev" => $row["FELHASZNALONEV"], "id" => $row["ID"], "email" => $_POST["email"]];
+
+        $_SESSION["felhasznalo"] = [
+            "felhasznalonev" => $row["FELHASZNALONEV"],
+            "id" => $row["ID"],
+            "email" => $_POST["email"],
+            "rang" => [
+                "olvaso" => true,
+                "szerzo" => true,
+                "lektor" => true,
+                "admin" => true
+            ]
+        ];
 
         $success = "Sikeres bejelentkezés! Üdvözlünk " . $_SESSION["felhasznalo"]["felhasznalonev"];
     } else {

@@ -40,7 +40,7 @@ if (isset($_POST["register"])) {    // miután az űrlapot elküldték...
 
         oci_execute($stid);
         if (!$r) {
-            $e = oci_error($stid2);
+            $e = oci_error($stid);
             trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
         }
 
@@ -90,7 +90,7 @@ if (isset($_POST["register"])) {    // miután az űrlapot elküldték...
 
 
         <label for="inputPassword5" class="form-label">Jelszó</label>
-        <input type="password" id="inputPassword5" class="form-control <?php if (isset($_POST['email'])) echo 'is-valid" ' . 'value="' . $_POST['email'] . '" '; ?> aria-labelledby=" passwordHelpBlock" name="passworld" required>
+        <input type="password" id="inputPassword5" class="form-control <?php if (isset($_POST['passworld'])) echo 'is-valid" ' . 'value="' . $_POST['passworld'] . '" '; ?> aria-labelledby=" passwordHelpBlock" name="passworld" required>
 
         <label for="exampleFormControlInput3" class="form-label is-valid">Felhasználónév</label>
         <input type="text" class="form-control <?php if (isset($_POST['username'])) echo 'is-valid" ' . 'value="' . $_POST['username'] . '" '; ?>" id="exampleFormControlInput3" name="username" required>

@@ -47,7 +47,7 @@
 
 
                     echo '<td>' . '<form method="post">
-                          <button  class="btn btn-outline-danger" type="submit" name="btn-delete" value="' . $row[0] . '">Törlés</button> 
+                          <button class="btn btn-outline-danger" formmethod="get" name="id" value="' . $row[0] . '" formaction="felhasznalo-torlo.php">Törlés</button>
                           <button class="btn btn-outline-primary" formmethod="get" name="id" value="' . $row[0] . '" formaction="felhasznalo-szerkeszto.php">Módosítás</button></form>' . '</td>';
                     echo '</tr>';
                 }
