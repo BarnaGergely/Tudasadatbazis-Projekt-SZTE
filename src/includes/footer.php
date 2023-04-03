@@ -1,6 +1,6 @@
 <footer class="text-center">
     <hr>
-    <p>alma</p>
+    <p>Copyright 2023</p>
 </footer>
 
 <?php

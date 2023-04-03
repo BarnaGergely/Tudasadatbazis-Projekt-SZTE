@@ -4,6 +4,9 @@ require_once('resources/theme/header.php');
 
 if (isset($_POST["register"])) {    // miután az űrlapot elküldték...
 
+    $hashelt_jelszo = password_hash($_POST['passworld'], PASSWORD_DEFAULT);
+    $_POST['passworld'] = $hashelt_jelszo;
+
     $stid2 = oci_parse($conn, "SELECT id, felhasznalonev, email from felhasznalo WHERE email = '" . $_POST['email'] . "'");
     if (!$stid2) {
         $e = oci_error($conn);
@@ -54,8 +57,16 @@ if (isset($_POST["register"])) {    // miután az űrlapot elküldték...
 
 ?>
 <div class="container">
-    <form action="regisztracio.php" method="POST">
-        <h1>Regisztráció</h1>
+    <h1>Regisztráció</h1>
+
+    <?php
+    if (isset($_SESSION["felhasznalo"])) {
+        echo '<div class="alert alert-success" role="alert">
+        ' . 'Már be vagy jelentkezve: ' . $_SESSION["felhasznalo"]["felhasznalonev"] . ' , ' . $_SESSION["felhasznalo"]["email"] . '
+    </div>';
+    }
+    ?>
+    <form action="regisztracio.php" method="POST" <?php if (isset($_SESSION["felhasznalo"])) echo 'hidden' ?>>
 
         <label for="exampleFormControlInput1" class="form-label">Email cím</label>
         <input type="email" class="form-control <?php
@@ -83,7 +94,7 @@ if (isset($_POST["register"])) {    // miután az űrlapot elküldték...
 
         <label for="exampleFormControlInput3" class="form-label is-valid">Felhasználónév</label>
         <input type="text" class="form-control <?php if (isset($_POST['username'])) echo 'is-valid" ' . 'value="' . $_POST['username'] . '" '; ?>" id="exampleFormControlInput3" name="username" required>
-        <button style="margin: 1rem;" type="submit" name="register" class="btn btn-primary">Regisztráció</button>
+        <button style="margin: 1rem;" type="submit" name="register" class="btn btn-primary" placeholder="Pista99">Regisztráció</button>
     </form>
 </div>
 <?php
