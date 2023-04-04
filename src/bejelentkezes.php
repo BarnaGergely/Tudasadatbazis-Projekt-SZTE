@@ -48,8 +48,16 @@ if (isset($_POST["login"])) {    // miután az űrlapot elküldték...
 
 ?>
 <div class="container">
-    <form action="bejelentkezes.php" method="POST">
-        <h1>Bejelentkezés</h1>
+    <h1>Bejelentkezés</h1>
+
+    <?php
+    if (isset($_SESSION["felhasznalo"])) {
+        echo '<div class="alert alert-success" role="alert">
+            ' . 'Már be vagy jelentkezve: ' . $_SESSION["felhasznalo"]["felhasznalonev"] . ' , ' . $_SESSION["felhasznalo"]["email"] . '
+            </div>';
+    }
+    ?>
+    <form action="bejelentkezes.php" method="POST" <?php if (isset($_SESSION["felhasznalo"])) echo 'hidden' ?>>
         <label for="exampleFormControlInput1" class="form-label">Email cím</label>
         <input type="email" class="form-control" id="exampleFormControlInput1" name="email" placeholder="name@example.com" <?php if (isset($_POST['email'])) echo 'value="' . $_POST['email'] . '" '; ?>>
         <label for="inputPassword5" class="form-label">Jelszó</label>
