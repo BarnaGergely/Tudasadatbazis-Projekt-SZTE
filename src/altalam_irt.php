@@ -1,5 +1,10 @@
 <?php
+
 include "resources/functions/config.php";
+if(!$_SESSION["felhasznalo"]["rang"]["szerzo"]){
+    header("Location: index.php");
+    
+}
 ?>
 
 <!DOCTYPE html>
@@ -27,20 +32,25 @@ include "resources/functions/config.php";
     </header>
 
 
-    <main class="container">
-        <?php
-            if(isset($_GET["cikkID"])){
-                $array = oci_parse($conn, "SELECT cim,tartalom from CIKK where ID = ".$_GET["cikkID"]);
+    <footer class="container">
+        <hr>
+        <ul>
+            <?php
+                $array = oci_parse($conn, "SELECT ID,cim,allapot from CIKK where SZERZO_ID = :id");
+
+                oci_bind_by_name($array,":id",$_SESSION["felhasznalo"]["id"]);
+                
                 oci_execute($array);
+                
 
-            $row = oci_fetch_array($array);
+                while ($row = oci_fetch_array($array)) {
+                    echo "<li>".$row[1]."</li>";
+                }
+            
 
-            echo "<h1>" . $row[0] . "</h1>";
-            echo "<p>" . $row[1]->load() . "</p>";
-        }
-
-        ?>
-    </main>
+            ?>
+        </ul>
+    </footer>
 
 
 

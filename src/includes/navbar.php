@@ -15,8 +15,21 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="cikk_kategoria.php">Listázás</a></li>
+                        <?php
+                            if(isset($_SESSION["felhasznalo"])){
+                                if($_SESSION["felhasznalo"]["rang"]["szerzo"]){
+                                    echo '<li><a class="dropdown-item" href="cikk_iras.php">Írás</a></li>';
+                                    echo '<li><a class="dropdown-item " href="altalam_irt.php">Általam írt cikkek</a></li>';
+
+                                }
+                                
+                                if($_SESSION["felhasznalo"]["rang"]["lektor"]){
+                                    echo '<li><a class="dropdown-item" href="ellenorzesre.php">ellenorzes</a></li>';
+                                }
+                            }
+                            
+                        ?>
                         <li><a class="dropdown-item disabled" href="#">Létrehozás</a></li>
-                        <li><a class="dropdown-item disabled" href="#">Általam írt cikkek</a></li>
                         <li><a class="dropdown-item disabled" href="#">Ellenőrzésre váró cikkek</a></li>
                     </ul>
                 </li>

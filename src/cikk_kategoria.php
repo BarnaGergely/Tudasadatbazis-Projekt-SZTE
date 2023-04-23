@@ -55,7 +55,7 @@ include "resources/functions/config.php";
         <ul>
             <?php
             if (isset($_GET["chK"])) {
-                $array = oci_parse($conn, "SELECT ID,cim from CIKK where ID in (select cikk_ID from KATEGORIA where kategoria like '" . $_GET["chK"] . "')");
+                $array = oci_parse($conn, "SELECT ID,cim from CIKK where ID in (select cikk_ID from KATEGORIA where kategoria like '" . $_GET["chK"] . "' and allapot like 'publikus')");
                 oci_execute($array);
                 while ($row = oci_fetch_array($array)) {
                     echo "<li><a href='cikk_tartalom.php?cikkID=" . $row[0] . "'>" . $row[1] . "</a></li>";
@@ -68,7 +68,7 @@ include "resources/functions/config.php";
 
 
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
+    <?php include "includes/footer.php"; ?>
 </body>
 
 </html>

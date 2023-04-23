@@ -11,11 +11,6 @@ if ($result) {
     $fail = "Hiba, Valószínűleg nincs ilyen felhasználó.";
 }
 
-
-
-
-
-
 ?>
 
 
