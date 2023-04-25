@@ -51,7 +51,10 @@ include "resources/functions/config.php";
 
             <div class="megjegyzesek">
                 <?php
-                    $array = oci_parse($conn, "SELECT megjegyzes.id,tartalom,felhasznalo.felhasznalonev from megjegyzes inner join felhasznalo on felhasznalo.id=megjegyzes.felhasznalo_id order by megjegyzes.id DESC");
+                    $array = oci_parse($conn, "select cikk.id,megjegyzes.tartalom,felhasznalonev from megjegyzes
+                    inner join cikk on cikk.id = megjegyzes.cikk_id
+                    inner join felhasznalo on megjegyzes.felhasznalo_id = felhasznalo.id
+                    where cikk.id = ".$_GET["cikkID"]." order by megjegyzes.id DESC");
                     oci_execute($array);
 
                     while ($row = oci_fetch_array($array)) {
