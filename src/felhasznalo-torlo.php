@@ -2,7 +2,8 @@
 include_once 'resources/functions/config.php';
 require_once('resources/theme/header.php');
 
-$query = oci_parse($conn, "DELETE FROM felhasznalo WHERE id='" . $_GET["id"] . "'");
+$elokeszito = "DELETE FROM felhasznalo WHERE id=" . $_GET["id"];
+$query = oci_parse($conn, $elokeszito);
 $result = oci_execute($query);
 if ($result) {
     oci_commit($conn); //*** Commit Transaction ***// 

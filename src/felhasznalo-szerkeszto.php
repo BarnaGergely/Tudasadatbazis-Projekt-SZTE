@@ -5,7 +5,7 @@ require_once('resources/theme/header.php');
 // TODO: rangok lekérdezése az adatbázisból
 $osszesrang = [
     0 => "olvaso",
-    1 => "szerkeszto",
+    1 => "szerzo",
     2 => "lektor",
     3 => "admin",
 ];

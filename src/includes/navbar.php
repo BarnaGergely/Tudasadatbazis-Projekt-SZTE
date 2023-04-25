@@ -15,20 +15,27 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="cikk_kategoria.php">Listázás</a></li>
+
+                        <li><a class="dropdown-item <?php if (!isset($_SESSION["felhasznalo"]["rang"]["szerzo"])) echo "disabled";?>" href="cikk_iras.php">Írás</a></li>
+                        <li><a class="dropdown-item <?php if (!isset($_SESSION["felhasznalo"]["rang"]["szerzo"])) echo "disabled";?>" href="altalam_irt.php">Általam írt cikkek</a></li>
+                        <li><a class="dropdown-item <?php if (!isset($_SESSION["felhasznalo"]["rang"]["lektor"])) echo "disabled";?>" href="ellenorzesre.php">Ellenőrzes</a></li>
+
+                        <!--
                         <?php
                             if(isset($_SESSION["felhasznalo"])){
-                                if($_SESSION["felhasznalo"]["rang"]["szerzo"]){
+                                if(isset($_SESSION["felhasznalo"]["rang"]["szerzo"])){
                                     echo '<li><a class="dropdown-item" href="cikk_iras.php">Írás</a></li>';
                                     echo '<li><a class="dropdown-item " href="altalam_irt.php">Általam írt cikkek</a></li>';
 
                                 }
                                 
-                                if($_SESSION["felhasznalo"]["rang"]["lektor"]){
-                                    echo '<li><a class="dropdown-item" href="ellenorzesre.php">ellenorzes</a></li>';
+                                if(isset($_SESSION["felhasznalo"]["rang"]["lektor"])){
+                                    echo '<li><a class="dropdown-item" href="ellenorzesre.php">Ellenőrzes</a></li>';
                                 }
                             }
-                            
                         ?>
+                        -->
+                        
                         <li><a class="dropdown-item disabled" href="#">Létrehozás</a></li>
                         <li><a class="dropdown-item disabled" href="#">Ellenőrzésre váró cikkek</a></li>
                     </ul>
@@ -45,10 +52,10 @@
                         } ?>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="bejelentkezes.php">Bejelentkezés</a></li>
-                        <li><a class="dropdown-item" href="regisztracio.php">Regisztráció</a></li>
+                        <li><a class="dropdown-item <?php if (isset($_SESSION["felhasznalo"])) echo "disabled"; ?>" href="bejelentkezes.php">Bejelentkezés</a></li>
+                        <li><a class="dropdown-item <?php if (isset($_SESSION["felhasznalo"])) echo "disabled"; ?>" href="regisztracio.php">Regisztráció</a></li>
                         <li><a class="dropdown-item <?php if (!isset($_SESSION["felhasznalo"])) echo "disabled"; ?>" href="felhasznalo-szerkeszto.php<?php if (isset($_SESSION["felhasznalo"])) echo "?id=" . $_SESSION["felhasznalo"]["id"]; ?>">Adataim módosítása</a></li>
-                        <li><a class="dropdown-item" href="kijelentkezes.php">Kijelentkezés</a></li>
+                        <li><a class="dropdown-item <?php if (!isset($_SESSION["felhasznalo"])) echo "disabled"; ?>" href="kijelentkezes.php">Kijelentkezés</a></li>
                     </ul>
                 </li>
             </ul>
