@@ -8,14 +8,14 @@ session_destroy();        // munkamenet törlése
 $success = "Sikeres kijelentkezés.";
 ?>
 <div class="container">
-    <?php
-    if (isset($success)) {
-        echo '<div class="alert alert-success" role="alert">
+  <?php
+  if (isset($success)) {
+    echo '<div class="alert alert-success" role="alert">
     ' . $success . '
   </div>';
-    }
-    ?>
-    
+  }
+  ?>
+
 </div>
 
 <?php

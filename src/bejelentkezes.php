@@ -22,20 +22,20 @@ if (isset($_POST["login"])) {    // miután az űrlapot elküldték...
         $login_error = "Nincs ilyen email cím regisztrálva";
     } else if (password_verify($_POST["passworld"], $row["JELSZO"])) {
 
-        // TODO: Rang lekérdezése és elmentése
-
-
         $_SESSION["felhasznalo"] = [
             "felhasznalonev" => $row["FELHASZNALONEV"],
-            "id" => $row["ID"],
+            "id" => intval($row["ID"]),
             "email" => $_POST["email"],
-            "rang" => [
-                "olvaso" => true,
-                "szerzo" => true,
-                "lektor" => true,
-                "admin" => true
-            ]
+            "rang" => []
         ];
+
+        // adatbázisban lévő rangok lekrédezése
+        $array = oci_parse($conn, "SELECT jog_nev from jog where felhasznalo_id = " . $_SESSION["felhasznalo"]["id"]);
+        oci_execute($array);
+        while ($row = oci_fetch_array($array)) {
+            $_SESSION["felhasznalo"]["rang"][$row[0]] = true;
+        }
+        oci_free_statement($array);
 
         $success = "Sikeres bejelentkezés! Üdvözlünk " . $_SESSION["felhasznalo"]["felhasznalonev"];
     } else {
