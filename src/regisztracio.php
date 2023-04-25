@@ -62,23 +62,28 @@ if (isset($_POST["register"])) {    // miután az űrlapot elküldték...
     if (isset($_SESSION["felhasznalo"])) {
         echo '<div class="alert alert-success" role="alert">
         ' . 'Már be vagy jelentkezve: ' . $_SESSION["felhasznalo"]["felhasznalonev"] . ' , ' . $_SESSION["felhasznalo"]["email"] . '
-    </div>';
+        </div>';
     }
+
     ?>
     <form action="regisztracio.php" method="POST" <?php if (isset($_SESSION["felhasznalo"])) echo 'hidden' ?>>
 
         <label for="exampleFormControlInput1" class="form-label">Email cím</label>
-        <input type="email" class="form-control <?php
-                                                if (isset($_POST['email'])) {
-                                                    if (!isset($email_error)) {
-                                                        echo 'is-valid"';
-                                                    } else {
-                                                        echo 'is-invalid"';
-                                                    }
-                                                    echo ' value="' . $_POST['email'] . '" ';
-                                                }
-                                                ?>" id="exampleFormControlInput1" name="email" placeholder="name@example.com" required>
+        <input type="email" class="form-control 
+        
         <?php
+        if (isset($_POST['email'])) {
+            if (!isset($email_error)) {
+                echo 'is-valid"';
+            } else {
+                echo 'is-invalid"';
+            }
+            echo ' value="' . $_POST['email'] . '" ';
+        }
+        ?>" id="exampleFormControlInput1" name="email" placeholder="name@example.com" required>
+        <?php
+
+
         if (!isset($email_error)) {
             echo '<div class="valid-feedback"> Rendben van! </div>';
         } else {
