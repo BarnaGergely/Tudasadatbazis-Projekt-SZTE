@@ -32,6 +32,8 @@
                     <th scope="col">id</th>
                     <th scope="col">Felhasználónév</th>
                     <th scope="col">Email</th>
+                    <th scope="col">Rang</th>
+                    <th scope="col">Aktivitás</th>
                     <th scope="col">Eszközök</th>
                 </tr>
             </thead>
@@ -40,10 +42,25 @@
                 $array = oci_parse($conn, "SELECT id, felhasznalonev, email from felhasznalo");
                 oci_execute($array);
                 while ($row = oci_fetch_array($array)) {
+                    $activity = 0;
+                    $stmt = oci_parse($conn, "BEGIN :result := AKTIVITAS(:userid); END;");
+                    oci_bind_by_name($stmt, ':userid', $row[0]);
+                    oci_bind_by_name($stmt, ':result', $activity, PDO::PARAM_INT);
+                    oci_execute($stmt);
+
                     echo '<tr>';
                     echo '<td>' . $row[0] . '</td>';
                     echo '<td>' . $row[1] . '</td>';
                     echo '<td>' . $row[2] . '</td>';
+                    echo '<td>';
+                    $rangLista = oci_parse($conn, "SELECT jog_nev from jog where jog.felhasznalo_id = ".$row[0]);
+                    oci_execute($rangLista);
+                    while ($jogRow = oci_fetch_array($rangLista)) {
+                    echo $jogRow[0]  . ', ';
+                    }
+
+                    echo '</td>';
+                    echo '<td>' . $activity[0] . '</td>';
 
 
                     echo '<td>' . '<form method="post">
@@ -51,6 +68,9 @@
                           <button class="btn btn-outline-primary" formmethod="get" name="id" value="' . $row[0] . '" formaction="felhasznalo-szerkeszto.php">Módosítás</button></form>' . '</td>';
                     echo '</tr>';
                 }
+                oci_free_statement($stmt);
+                oci_free_statement($array);
+                oci_free_statement($rangLista );
                 ?>
             </tbody>
         </table>

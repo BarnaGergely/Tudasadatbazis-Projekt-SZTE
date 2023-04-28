@@ -210,7 +210,7 @@ if (isset($_GET["id"]) && !empty($_GET["id"])) {
         <label for="exampleFormControlInput3" class="form-label is-valid">Felhasználónév</label>
         <input type="text" class="form-control <?php if (isset($_POST['username'])) echo '" ' . 'value="' . $_POST['username'] . '" '; ?>" id="exampleFormControlInput3" name="username" required>
 
-        <label class="form-label">Rang:
+        <label class="form-label">Rang:<br>
             <?php
 
             // választó lista kiiratása és felhasználóhoz rendelt rangok alapértelmezetten bejelölté tétele
@@ -233,6 +233,7 @@ if (isset($_GET["id"]) && !empty($_GET["id"])) {
             ?>
             </select>
         </label>
+        <br>
 
 
         <label for="inputPassword5" class="form-label">Régi Jelszó</label>
@@ -248,7 +249,7 @@ if (isset($_GET["id"]) && !empty($_GET["id"])) {
                                                                         ?>" aria-labelledby=" passwordHelpBlock" name="passworld" required>
         <?php
         if (!isset($pwd_error)) {
-            echo '<div class="valid-feedback"> Helyes jelszó </div>';
+            // echo '<div class="valid-feedback"> Helyes jelszó </div>';
         } else {
             echo '<div class="invalid-feedback">' . $pwd_error . '</div>';
         }
