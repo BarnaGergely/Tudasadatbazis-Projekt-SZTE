@@ -1,37 +1,71 @@
 <?php
-
     include "resources/functions/config.php"; 
     if(!$_SESSION["felhasznalo"]["rang"]["szerzo"]){
         header("Location: index.php");
-        
     }
 
     include_once 'resources/functions/config.php';
     require_once('resources/theme/header.php');
+    
+    $cim="";
+    $kat="";
+    $content="";
+
+    if(isset($_GET["id"])){
+        $stmt = oci_parse($conn, "SELECT * from cikk where id = ".$_GET["id"]);
+        oci_execute($stmt);
+    
+        $row = oci_fetch_array($stmt);
+        $cim=$row["CIM"];
+        $content=$row["TARTALOM"]->load();
+
+        $stmt = oci_parse($conn, "SELECT * from kategoria where cikk_id = ".$_GET["id"]);
+        oci_execute($stmt);
+        $row = oci_fetch_array($stmt);
+        $kat=$row[1];
+    }
+    
+    
     ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Tudásbázis</title>
 </head>
 <body>
     <div class="container">
-        <h1 class="text-center">Írj saját cikket!</h1>
+        <h1 class="text-center">
+            <?php 
+                if(isset($_GET["id"])){
+                    echo "Módosítsd a cikket!";
+                } else {
+                    echo "Írj saját cikket!";
+                }
+            ?>
+        </h1>
 
         <form action="cikk_beszuras.php" method="post">
             <p>
                 <label for="cikkcim" >Cikk cime: </label>
-                <input type="text" name="cim" id="cikkcim">
+                <input type="text" name="cim" id="cikkcim" value="<?php echo $cim; ?>">
             </p>
 
             <p>
                 <label for="kat" >Cikk kategóriája: </label>
-                <input type="text" name="kat" id="kat">
+                <input type="text" name="kat" id="kat" value="<?php echo $kat; ?>">
             </p>
-            <textarea name="content" class="form-control" rows="7"></textarea>
+            <textarea name="content" class="form-control" rows="7" ><?php echo $content; ?></textarea>
+            
+
+            <?php 
+                if (isset($_GET["id"])) {
+                    echo '<input type="hidden" name="id" value="'.$_GET["id"].'"/>';
+                }
+            ?>
 
             <label for="k">Adj hozzá keresőszavakat vesszővel elválasztva elválasztva</label>
             <input type="text" name="keresoszavak" id="k">

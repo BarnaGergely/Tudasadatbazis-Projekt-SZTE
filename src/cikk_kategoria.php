@@ -2,6 +2,8 @@
 
 include "resources/functions/config.php";
 
+
+
 ?>
 
 <!DOCTYPE html>
@@ -55,18 +57,31 @@ include "resources/functions/config.php";
         <ul>
             <?php
             if (isset($_GET["chK"])) {
-                $array = oci_parse($conn, "SELECT ID,cim from CIKK where ID in (select cikk_ID from KATEGORIA where kategoria like '" . $_GET["chK"] . "' and allapot like 'publikus')");
+                $array = oci_parse($conn, "SELECT ID,cim, szerzo_id, lektor_id from CIKK where ID in (select cikk_ID from KATEGORIA where kategoria like '" . $_GET["chK"] . "' and allapot like 'publikus')");
                 oci_execute($array);
                 while ($row = oci_fetch_array($array)) {
-                    echo "<li><a href='cikk_tartalom.php?cikkID=" . $row[0] . "'>" . $row[1] . "</a></li>";
+                    $tools="";
+                    if (isset($_SESSION["felhasznalo"]["rang"]["admin"])) {
+                        $tools = " <a href='cikk_iras.php?id=" . $row[0] . "'><button>Módosítás</button></a> <a href='cikk_torles.php?id=" . $row[0] . "'><button>Törlés</button></a>";
+                    } else {
+                        if (isset($_SESSION["felhasznalo"]["rang"]["szerzo"])) {
+                            if ($_SESSION["felhasznalo"]["id"] === $row["SZERZO_ID"]) {
+                                $tools = " <a href='cikk_iras.php?id=" . $row["ID"] . "'><button>Módosítás</button></a>";
+                            }
+                        }
+                        if (isset($_SESSION["felhasznalo"]["rang"]["lektor"])) {
+                            if ($_SESSION["felhasznalo"]["id"] === $row["LEKTOR_ID"]) {
+                                $tools = " <a href='cikk_iras.php?id=" . $row["ID"] . "'><button>Módosítás</button></a>";
+                            }
+                        }
+                    }
+                    echo "<li><a href='cikk_tartalom.php?cikkID=" . $row[0] . "'>" . $row[1] . "</a>" . $tools . "</li>";
                 }
             }
 
             ?>
         </ul>
     </footer>
-
-
 
     <?php include "includes/footer.php"; ?>
 </body>

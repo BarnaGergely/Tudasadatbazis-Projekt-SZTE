@@ -5,7 +5,6 @@ require_once('resources/theme/header.php');
 if (isset($_POST["register"])) {    // miután az űrlapot elküldték...
 
     $hashelt_jelszo = password_hash($_POST['passworld'], PASSWORD_DEFAULT);
-    $_POST['passworld'] = $hashelt_jelszo;
 
     $stid2 = oci_parse($conn, "SELECT id, felhasznalonev, email from felhasznalo WHERE email = '" . $_POST['email'] . "'");
     if (!$stid2) {
@@ -35,7 +34,7 @@ if (isset($_POST["register"])) {    // miután az űrlapot elküldték...
         */
 
         oci_bind_by_name($stid, ':name', $_POST['username']);
-        oci_bind_by_name($stid, ':passworld', $_POST['passworld']);
+        oci_bind_by_name($stid, ':passworld', $hashelt_jelszo);
         oci_bind_by_name($stid, ':email', $_POST['email']);
 
         oci_execute($stid);
