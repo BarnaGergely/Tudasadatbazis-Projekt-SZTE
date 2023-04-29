@@ -15,6 +15,8 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="cikk_kategoria.php">Listázás</a></li>
+                        <li><a class="dropdown-item" href="kereses_kulcsszo.php">Kulcsszó alapján</a></li>
+
                         <?php
                             if(isset($_SESSION["felhasznalo"])){
                                 if($_SESSION["felhasznalo"]["rang"]["szerzo"]){

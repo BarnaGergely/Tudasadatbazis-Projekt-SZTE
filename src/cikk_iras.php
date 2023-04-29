@@ -33,7 +33,12 @@
             </p>
             <textarea name="content" class="form-control" rows="7"></textarea>
 
+            <label for="k">Adj hozzá keresőszavakat vesszővel elválasztva elválasztva</label>
+            <input type="text" name="keresoszavak" id="k">
+            <br>
+            
             <input class="btn btn-primary mt-3" type="submit" value="Küldés">
+
             
         </form>
         
