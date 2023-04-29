@@ -25,12 +25,14 @@
 
     <main class="container">
         <h1>Statisztikák</h1>
-        <p>Legtöbb kommentet kapott cikk címe:
+        <p>Legtöbb cikket írt szerző:
             <?php
-            $array = oci_parse($conn, "SELECT cim,tartalom from CIKK where ID = " . $_GET["cikkID"]);
+            $array = oci_parse($conn, "select szerzo_id,c from 
+            (select szerzo_id,count(*) as c from cikk group by szerzo_id)
+            where c = (select max(count(*)) from cikk group by szerzo_id)");
             oci_execute($array);
             $row = oci_fetch_array($array);
-            echo $row[0];
+            echo $row[0]." ".$row[1];
             ?>
         </p>
         <p>Legkevesebb kommentet kapott cikk címe: </p>
