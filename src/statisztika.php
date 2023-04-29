@@ -19,14 +19,20 @@
 <body>
     <header>
         <?php
-
         include "includes/navbar.php";
         ?>
     </header>
 
     <main class="container">
         <h1>Statisztikák</h1>
-        <p>Legtöbb kommentet kapott cikk címe: </p>
+        <p>Legtöbb kommentet kapott cikk címe:
+            <?php
+            $array = oci_parse($conn, "SELECT cim,tartalom from CIKK where ID = " . $_GET["cikkID"]);
+            oci_execute($array);
+            $row = oci_fetch_array($array);
+            echo $row[0];
+            ?>
+        </p>
         <p>Legkevesebb kommentet kapott cikk címe: </p>
         <p>Legtöbb és legkevesebb cikket írt szerző: </p>
         <p>Legkevesebb cikket írt szerző: </p>

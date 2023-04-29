@@ -1,4 +1,15 @@
-<?php include "resources/functions/config.php"; ?>
+<?php include "resources/functions/config.php";
+
+if (!$_SESSION["felhasznalo"]["rang"]["admin"]) {
+    header("Location: index.php");
+}
+
+if (isset($_POST["javitas"])) {
+    $stmt2 = oci_parse($conn, "BEGIN REPAIRJOG(); END;");
+    oci_execute($stmt2);
+}
+
+?>
 
 <!DOCTYPE html>
 <html lang="hu" data-bs-theme="dark">
@@ -26,6 +37,7 @@
 
     <main class="container">
         <h1>Felhasználók</h1>
+        <form method="post"><button class="btn btn-outline-primary" formmethod="get" name="javitas" value="1" formaction="felhasznalok.php">Jogosultságok javítása</button></form>
         <table class="table">
             <thead>
                 <tr>
@@ -53,10 +65,10 @@
                     echo '<td>' . $row[1] . '</td>';
                     echo '<td>' . $row[2] . '</td>';
                     echo '<td>';
-                    $rangLista = oci_parse($conn, "SELECT jog_nev from jog where jog.felhasznalo_id = ".$row[0]);
+                    $rangLista = oci_parse($conn, "SELECT jog_nev from jog where jog.felhasznalo_id = " . $row[0]);
                     oci_execute($rangLista);
                     while ($jogRow = oci_fetch_array($rangLista)) {
-                    echo $jogRow[0]  . ', ';
+                        echo $jogRow[0]  . ', ';
                     }
 
                     echo '</td>';
@@ -70,7 +82,7 @@
                 }
                 oci_free_statement($stmt);
                 oci_free_statement($array);
-                oci_free_statement($rangLista );
+                oci_free_statement($rangLista);
                 ?>
             </tbody>
         </table>

@@ -58,7 +58,7 @@ include "resources/functions/config.php";
                 $array = oci_parse($conn, "SELECT ID,cim from CIKK where ID in (select cikk_ID from KATEGORIA where kategoria like '" . $_GET["chK"] . "' and allapot like 'publikus')");
                 oci_execute($array);
                 while ($row = oci_fetch_array($array)) {
-                    echo "<li><a href='cikk_tartalom.php?cikkID=" . $row[0] . "'>" . $row[1] . "</a></li>";
+                    echo "<li><a href='cikk_tartalom.php?cikkID=" . $row[0] . "'>" . $row[1] . "</a> <a href='cikk_iras.php?id=" . $row[0] . "'><button>Módosítás</button></a></li>";
                 }
             }
 
