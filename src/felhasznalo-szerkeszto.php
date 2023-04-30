@@ -89,15 +89,25 @@ if (isset($_GET["id"]) && !empty($_GET["id"])) {
 
         if ($email_verifed) {
             // régi jelszó megegyezik az adatbázisban lévő jelszóval
-            if (password_verify($_POST['passworld'], $data["jelszo"])) {
+            if (password_verify($_POST['passworld'], $data["jelszo"]) || isset($_SESSION["felhasznalo"]["rang"]["admin"])) {
                 $hashelt_ujjelszo = password_hash($_POST['newpassworld'], PASSWORD_DEFAULT);
 
-                $stid = oci_parse($conn, "UPDATE FELHASZNALO SET felhasznalonev = :name, jelszo = :passworld, email = :email WHERE id = :id");
+                if (isset($_SESSION["felhasznalo"]["rang"]["admin"])) {
+                    $stid = oci_parse($conn, "UPDATE FELHASZNALO SET felhasznalonev = :name, email = :email WHERE id = :id");
 
-                oci_bind_by_name($stid, ':name', $_POST['username']);
-                oci_bind_by_name($stid, ':passworld', $hashelt_ujjelszo);
-                oci_bind_by_name($stid, ':email', $_POST['email']);
-                oci_bind_by_name($stid, ':id', $_GET['id']);
+                    oci_bind_by_name($stid, ':name', $_POST['username']);
+                    oci_bind_by_name($stid, ':email', $_POST['email']);
+                    oci_bind_by_name($stid, ':id', $_GET['id']);
+                } else {
+                    $stid = oci_parse($conn, "UPDATE FELHASZNALO SET felhasznalonev = :name, jelszo = :passworld, email = :email WHERE id = :id");
+
+                    oci_bind_by_name($stid, ':name', $_POST['username']);
+                    oci_bind_by_name($stid, ':passworld', $hashelt_ujjelszo);
+                    oci_bind_by_name($stid, ':email', $_POST['email']);
+                    oci_bind_by_name($stid, ':id', $_GET['id']);
+                }
+
+
 
                 oci_execute($stid);
 
@@ -155,6 +165,13 @@ if (isset($_GET["id"]) && !empty($_GET["id"])) {
                     }
                 }
 
+                // adatbázisban lévő rangok lekrédezése
+                $array = oci_parse($conn, "SELECT jog_nev from jog where felhasznalo_id = " . $_SESSION["felhasznalo"]["id"]);
+                oci_execute($array);
+                while ($row = oci_fetch_array($array)) {
+                    $_SESSION["felhasznalo"]["rang"][$row[0]] = true;
+                }
+                oci_free_statement($array);
 
                 $success = "Adatok mentve";
             } else {
@@ -236,17 +253,25 @@ if (isset($_GET["id"]) && !empty($_GET["id"])) {
         <br>
 
 
-        <label for="inputPassword5" class="form-label">Régi Jelszó</label>
-        <input type="password" id="inputPassword5" class="form-control <?php
-                                                                        if (isset($_POST['passworld'])) {
-                                                                            if (!isset($pwd_error)) {
-                                                                                echo '"';
-                                                                            } else {
-                                                                                echo 'is-invalid"';
-                                                                            }
-                                                                            echo ' value="' . $_POST['passworld'] . '" ';
-                                                                        }
-                                                                        ?>" aria-labelledby=" passwordHelpBlock" name="passworld" required>
+        <?php if (!isset($_SESSION["felhasznalo"]["rang"]["admin"])) echo '<label for="inputPassword5" class="form-label">Régi Jelszó</label>'; ?>
+        <input type="<?php if (isset($_SESSION["felhasznalo"]["rang"]["admin"])) {
+                            echo 'hidden';
+                        } else {
+                            echo 'password';
+                        } ?>" id="inputPassword5" class="form-control <?php
+
+                        if (isset($_SESSION["felhasznalo"]["rang"]["admin"])) {
+                            echo " disabled ";
+                        }
+                        if (isset($_POST['passworld'])) {
+                            if (!isset($pwd_error)) {
+                                echo '"';
+                            } else {
+                                echo 'is-invalid"';
+                            }
+                            echo ' value="' . $_POST['passworld'] . '" ';
+                        }
+                        ?>" aria-labelledby=" passwordHelpBlock" name="passworld" required>
         <?php
         if (!isset($pwd_error)) {
             // echo '<div class="valid-feedback"> Helyes jelszó </div>';
@@ -255,8 +280,12 @@ if (isset($_GET["id"]) && !empty($_GET["id"])) {
         }
         ?>
 
-        <label for="inputPassword5" class="form-label">Új Jelszó</label>
-        <input type="password" id="inputPassword5" class="form-control <?php if (isset($_POST['newpassworld'])) echo '" ' . 'value="' . $_POST['newpassworld'] . '" '; ?> aria-labelledby=" passwordHelpBlock" name="newpassworld" required>
+        <?php if (!isset($_SESSION["felhasznalo"]["rang"]["admin"])) echo '<label for="inputPassword5" class="form-label">Új Jelszó</label>'; ?>
+        <input type="<?php if (isset($_SESSION["felhasznalo"]["rang"]["admin"])) {
+                            echo 'hidden';
+                        } else {
+                            echo 'password';
+                        } ?>" id="inputPassword5" class="form-control <?php if (isset($_POST['newpassworld'])) echo '" ' . 'value="' . $_POST['newpassworld'] . '" '; ?> aria-labelledby=" passwordHelpBlock" name="newpassworld" required>
 
         <button style="margin: 1rem;" type="submit" name="save" class="btn btn-primary" placeholder="Pista99">Mentés</button>
     </form>

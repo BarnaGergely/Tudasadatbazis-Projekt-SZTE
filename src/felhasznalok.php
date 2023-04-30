@@ -9,6 +9,21 @@ if (isset($_POST["javitas"])) {
     oci_execute($stmt2);
 }
 
+if (isset($_POST["id"]) && isset($_POST["rang"]) ) {
+    $result = 0;
+    $stmt = oci_parse($conn, "BEGIN :result := RANGELLENORZO(:userid, :rang); END;");
+    oci_bind_by_name($stmt, ':userid', $_POST["id"]);
+    oci_bind_by_name($stmt, ':rang', $_POST["rang"]);
+    oci_bind_by_name($stmt, ':result', $result, PDO::PARAM_STR);
+    oci_execute($stmt);
+
+    if ($cimcount = 1) {
+        $uzenet = '<div class="alert alert-success" role="alert">A felhasználó rendelkezik ilyen ranggal.</div>';
+    } else {
+        $uzenet = '<div class="alert alert-danger" role="alert">Nincs ilyen rangja a felhasználónak vagy hibás ID-t adtál meg.</div>';
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -38,6 +53,23 @@ if (isset($_POST["javitas"])) {
     <main class="container">
         <h1>Felhasználók</h1>
         <form method="post"><button class="btn btn-outline-primary" formmethod="get" name="javitas" value="1" formaction="felhasznalok.php">Jogosultságok javítása</button></form>
+        <!--
+        <hr>
+        <form action="felhasznalok.php" method="post">
+            <fieldset>
+            <legend>Rendelkezik e a felhasználó ilyen ranggal?</legend>
+                Felhasználó ID: <input type="text" name="id"><br>
+                Rang: <input type="text" name="rang"><br>
+                <input class="btn btn-primary mt-3" type="submit" value="Ellenőriz">
+            </fieldset>
+        </form>
+        -->
+        <hr>
+        <?php
+            if (isset($uzenet)){
+                echo $uzenet;
+            }
+        ?>
         <table class="table">
             <thead>
                 <tr>

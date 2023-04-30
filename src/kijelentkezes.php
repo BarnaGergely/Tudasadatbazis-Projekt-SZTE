@@ -10,9 +10,7 @@ $success = "Sikeres kijelentkezés.";
 <div class="container">
   <?php
   if (isset($success)) {
-    echo '<div class="alert alert-success" role="alert">
-    ' . $success . '
-  </div>';
+    header("Location: index.php");
   }
   ?>
 

@@ -42,12 +42,15 @@ include "resources/functions/config.php";
         ?>
         <hr>
         <div class="megjegyzes">
-
-            <form action="megjegyzes_beszurasa.php" method="post">
+            <?php if (isset($_SESSION["felhasznalo"])){
+                echo '<form action="megjegyzes_beszurasa.php" method="post">
                 <label for="valami">Írj megjegyzest</label>
-                <input type="hidden" name="cikkID" <?php echo "value='" . $_GET["cikkID"] . "'" ?>>
+                <input type="hidden" name="cikkID" value="' . $_GET["cikkID"] .  '">
                 <input type="text" name="megjegyzes" id="valami">
-            </form>
+            </form>';
+            }
+            ?>
+            
 
             <div class="megjegyzesek">
                 <?php
