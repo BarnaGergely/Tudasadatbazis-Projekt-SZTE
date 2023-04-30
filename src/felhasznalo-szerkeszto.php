@@ -164,7 +164,10 @@ if (isset($_GET["id"]) && !empty($_GET["id"])) {
                         */
                     }
                 }
-
+                
+                // session-ben lévő rangok törlése
+                $_SESSION["felhasznalo"]["rang"] = array();
+                
                 // adatbázisban lévő rangok lekrédezése
                 $array = oci_parse($conn, "SELECT jog_nev from jog where felhasznalo_id = " . $_SESSION["felhasznalo"]["id"]);
                 oci_execute($array);
