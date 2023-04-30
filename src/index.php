@@ -29,6 +29,30 @@
                 <button type="button" class="btn btn-outline-primary">Felhasználók</button>
             </div>
         </div>
+        <div class="container">  
+        <h1>Üdvözöllek a Tudásadatbázisban!</h1>
+            <div>Ezt a webes alkalmazást azért hoztuk létre, hogy bárki ingyenesen elérhessen rövid ismeretterjesztő cikkeket.
+            Ha egy témakörön belül keresel valamit, kattints a cikkekre majd a listázásra.
+            Itt témakörökre bontva megtekintheted a már publikált cikkeket.</div>
+            <div>Amennyiben komolyabban érdekel kicsiny kis oldalunk, a profil -> regisztráció menüpontban regisztrálhatsz, ezáltal új funkciókat érhetsz el.
+            Regisztráció után a profil -> bejelentkezés fülnél be tudsz jelentkezni.
+            Ezután a cikkek alá megjegyzéseket is írhatsz, melyek a felhasználó neveddel megjelennek a cikk alatt.</div>
+            <div>Amennyiben cikkeket szeretnél írni, írj egy emailt az admin@admin.hu email címre egy rövid bemutatkozó szöveggel és, hogy milyen témakörökben szeretbél tartalmat írni.
+            Kérésedet 24 órán belül elbíráljuk, majd visszajelzést küldünk. Ha elfogadtuk, következő bejelentkezésed alkalmával már szerző jogokkal is rendelkezel.
+            Szerzőként írhatsz cikkeket. A cikknek adj egy címet, sorold be egy már létező kategóriába, vagy hozz létre új kategóriát.
+            Kulcsszavakat is megadhatsz, így megkönnyítve, hogy mások megtalálják a cikket.
+            Beküldés után a cikkedet egy lektornak jóvá kell hagyni. A cikkeidet az általam írt cikkek menüpont alatt találhatod meg.
+            Itt még publikálás előtt módosíthatsz rajta vagy akár törölheted is.
+            Miután egy lektor elfogadta a cikkedet, az megjelenik mindenki számára. Később is módosíthatod, vagy törölheted.</div>
+            <div>Lektor rangot is az admin@admin.hu email címen tudsz igényelni. Ennek feltételei a következők:
+                -Legalább 1 hónapja regisztrált felhasználónak kell lenned.
+                -Legalább 5 publikált cikkel kell rendelkezned.
+                -Vállalnod kell, hogy havonta legalább 5 cikket ellenőrzöl.
+            Miután megkaptad a lektor rangot, elérheted az ellenőrzés menüpontot. Itt találod a publikálatlan cikkeket, amelyeket publikálni, módosítani vagy törölni tudsz.
+            Lektorként a publikált cikkeket is módosíthatod vagy törölheted.</div>
+            <div> A legmagasabb rang, az admin. Egy admin megtekintheti a felhasználókat, rangokat oszthat ki, vagy vehet el valamint felhasználókat törölhet.
+            Jelenleg nincs nyitott pozíció admin rangra. Amennyiben lesz, a főoldalon hirdetünk meg felvételt ezért érdemes rendszeresen figyelni.</div>
+        </div>
     </main>
 
     <?php include "includes/footer.php"; ?>
