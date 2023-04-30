@@ -41,23 +41,12 @@ if (isset($_GET["id"]) && !empty($_GET["id"])) {
         oci_free_statement($stid2);
     }
 
-    // adatbázisban lévő rangok lekrédezése
-    $data["rang"] = [];
-    $array = oci_parse($conn, "SELECT jog_nev from jog where felhasznalo_id = " . intval($_GET["id"]));
-    oci_execute($array);
-    while ($row = oci_fetch_array($array)) {
-        $data["rang"][$row[0]] = $row[0];
-    }
-    oci_free_statement($array);
-
 
     // Űrlapba bele rakni az adatokat
     if (!isset($_POST["email"])) {
         $_POST['username'] = $data["felhasznalonev"];
         $_POST['email'] = $data["email"];
         // Jelszo nem kell, azt nem lehet vissza fejteni, ezert mindig újra meg kell adni
-
-        $_POST["rang"] = $data["rang"];
     }
 
     // Űrlap beküldésekor mentés
@@ -107,68 +96,8 @@ if (isset($_GET["id"]) && !empty($_GET["id"])) {
 
                 oci_free_statement($stid);
 
-                // Rangok kezelése
-
-                // ha üres a lista, nem működik az in_array
-                if (!isset($_POST["rang"])) $_POST["rang"] = [];
-
-                // Törlendő rangok törlése
-                foreach ($data["rang"] as $rang) {
-                    // Ha benne van az adatbázisban a rang, de nem kellene benne lennie
-                    if (!in_array($rang, $_POST["rang"])) {
-
-                        $stid = oci_parse($conn, "DELETE FROM jog WHERE jog_nev= '" . $rang . "' AND felhasznalo_id = " . $data["id"]);
-
-                        oci_execute($stid);
-
-                        oci_free_statement($stid);
-
-                        /*try {
-                            $stmt->execute();
-                        } catch (PDOException $exc) {
-                            die("Hiba a rang törlésénél");
-                        }
-                        */
-                    }
-                }
-
-                // Új rangok hozzáadása
-
-                foreach ($_POST["rang"] as $rang) {
-                    // Ha nincs benne az adatbázisban az aktuális rang
-                    if (!in_array($rang,  $data["rang"])) {
-
-                        $stid = oci_parse($conn, 'INSERT INTO jog(felhasznalo_id, jog_nev) VALUES (:id, :rang)');
-                        oci_bind_by_name($stid, ':rang', $rang);
-                        oci_bind_by_name($stid, ':id', $data["id"]);
-
-                        oci_execute($stid);
-
-                        oci_free_statement($stid);
-
-                        /*$stmt->bindParam(':nev', $rang, PDO::PARAM_STR, 32);
-                        $stmt->bindParam(':szemelyiigazolvanyszam', $szemelyiigazolvanyszam, PDO::PARAM_INT, 32);
-                        try {
-                            $stmt->execute();
-                        } catch (PDOException $exc) {
-                            if ($exc->getCode() == 23000) {
-                                echo "Már van ilyen kulcsú rekord a rang táblában.";
-                            }
-                        }
-                        */
-                    }
-                }
-
-                // session-ben lévő rangok törlése
-                $_SESSION["felhasznalo"]["rang"] = array();
-
-                // adatbázisban lévő rangok lekrédezése
-                $array = oci_parse($conn, "SELECT jog_nev from jog where felhasznalo_id = " . $_SESSION["felhasznalo"]["id"]);
-                oci_execute($array);
-                while ($row = oci_fetch_array($array)) {
-                    $_SESSION["felhasznalo"]["rang"][$row[0]] = true;
-                }
-                oci_free_statement($array);
+                $_SESSION["felhasznalo"]["felhasznalonev"] = $_POST['username'];
+                $_SESSION["felhasznalo"]["email"] = $_POST['email'];
 
                 $success = "Adatok mentve";
             } else {
@@ -223,31 +152,6 @@ if (isset($_GET["id"]) && !empty($_GET["id"])) {
 
         <label for="exampleFormControlInput3" class="form-label is-valid">Felhasználónév</label>
         <input type="text" class="form-control <?php if (isset($_POST['username'])) echo '" ' . 'value="' . $_POST['username'] . '" '; ?>" id="exampleFormControlInput3" name="username" required>
-
-        <label class="form-label">Rang:<br>
-            <?php
-
-            // választó lista kiiratása és felhasználóhoz rendelt rangok alapértelmezetten bejelölté tétele
-
-
-            foreach ($osszesrang as $rang) {
-                //echo $rang;
-
-                $checked = "";
-                if (isset($_POST["rang"])) {
-                    foreach ($_POST["rang"] as $taroltRang) {
-                        if ($taroltRang === $rang) {
-                            $checked = "checked";
-                        }
-                    }
-                }
-                echo ' <label for="' . $rang . '">' . $rang . '</label>';
-                echo '<input type="checkbox" id="' . $rang . '" name="rang[]" value="' . $rang . '" ' . $checked . '>' . ' <br/>';
-            }
-            ?>
-            </select>
-        </label>
-        <br>
 
 
         <label for="inputPassword5" class="form-label">Régi Jelszó</label>
