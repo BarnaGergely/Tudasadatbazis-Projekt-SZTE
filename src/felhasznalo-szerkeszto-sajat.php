@@ -1,4 +1,8 @@
 <?php
+if (!$_SESSION["felhasznalo"]) {
+    header("Location: index.php");
+}
+
 include_once 'resources/functions/config.php';
 require_once('resources/theme/header.php');
 
@@ -196,7 +200,7 @@ if (isset($_GET["id"]) && !empty($_GET["id"])) {
     </div>';
     }
     ?>
-    <form action="felhasznalo-szerkeszto.php?id=<?php echo $_GET["id"]; ?>" method="POST" <?php if (isset($id_error)) echo "hidden" ?>>
+    <form action="felhasznalo-szerkeszto-sajat.php?id=<?php echo $_GET["id"]; ?>" method="POST" <?php if (isset($id_error)) echo "hidden" ?>>
 
         <label for="exampleFormControlInput1" class="form-label">Email cím</label>
         <input type="email" class="form-control <?php

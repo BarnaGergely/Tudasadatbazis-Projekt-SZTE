@@ -1,4 +1,9 @@
 <?php
+
+if (!$_SESSION["felhasznalo"]["rang"]["admin"]) {
+    header("Location: index.php");
+}
+
 include_once 'resources/functions/config.php';
 require_once('resources/theme/header.php');
 
@@ -88,71 +93,57 @@ if (isset($_GET["id"]) && !empty($_GET["id"])) {
         }
 
         if ($email_verifed) {
-            // régi jelszó megegyezik az adatbázisban lévő jelszóval
-            if (password_verify($_POST['passworld'], $data["jelszo"]) || isset($_SESSION["felhasznalo"]["rang"]["admin"])) {
-                $hashelt_ujjelszo = password_hash($_POST['newpassworld'], PASSWORD_DEFAULT);
+            $stid = oci_parse($conn, "UPDATE FELHASZNALO SET felhasznalonev = :name, email = :email WHERE id = :id");
 
-                if (isset($_SESSION["felhasznalo"]["rang"]["admin"])) {
-                    $stid = oci_parse($conn, "UPDATE FELHASZNALO SET felhasznalonev = :name, email = :email WHERE id = :id");
-
-                    oci_bind_by_name($stid, ':name', $_POST['username']);
-                    oci_bind_by_name($stid, ':email', $_POST['email']);
-                    oci_bind_by_name($stid, ':id', $_GET['id']);
-                } else {
-                    $stid = oci_parse($conn, "UPDATE FELHASZNALO SET felhasznalonev = :name, jelszo = :passworld, email = :email WHERE id = :id");
-
-                    oci_bind_by_name($stid, ':name', $_POST['username']);
-                    oci_bind_by_name($stid, ':passworld', $hashelt_ujjelszo);
-                    oci_bind_by_name($stid, ':email', $_POST['email']);
-                    oci_bind_by_name($stid, ':id', $_GET['id']);
-                }
+            oci_bind_by_name($stid, ':name', $_POST['username']);
+            oci_bind_by_name($stid, ':email', $_POST['email']);
+            oci_bind_by_name($stid, ':id', $_GET['id']);
 
 
+            oci_execute($stid);
 
-                oci_execute($stid);
+            oci_free_statement($stid);
 
-                oci_free_statement($stid);
+            // Rangok kezelése
 
-                // Rangok kezelése
+            // ha üres a lista, nem működik az in_array
+            if (!isset($_POST["rang"])) $_POST["rang"] = [];
 
-                // ha üres a lista, nem működik az in_array
-                if (!isset($_POST["rang"])) $_POST["rang"] = [];
+            // Törlendő rangok törlése
+            foreach ($data["rang"] as $rang) {
+                // Ha benne van az adatbázisban a rang, de nem kellene benne lennie
+                if (!in_array($rang, $_POST["rang"])) {
 
-                // Törlendő rangok törlése
-                foreach ($data["rang"] as $rang) {
-                    // Ha benne van az adatbázisban a rang, de nem kellene benne lennie
-                    if (!in_array($rang, $_POST["rang"])) {
+                    $stid = oci_parse($conn, "DELETE FROM jog WHERE jog_nev= '" . $rang . "' AND felhasznalo_id = " . $data["id"]);
 
-                        $stid = oci_parse($conn, "DELETE FROM jog WHERE jog_nev= '" . $rang . "' AND felhasznalo_id = " . $data["id"]);
+                    oci_execute($stid);
 
-                        oci_execute($stid);
+                    oci_free_statement($stid);
 
-                        oci_free_statement($stid);
-
-                        /*try {
+                    /*try {
                             $stmt->execute();
                         } catch (PDOException $exc) {
                             die("Hiba a rang törlésénél");
                         }
                         */
-                    }
                 }
+            }
 
-                // Új rangok hozzáadása
+            // Új rangok hozzáadása
 
-                foreach ($_POST["rang"] as $rang) {
-                    // Ha nincs benne az adatbázisban az aktuális rang
-                    if (!in_array($rang,  $data["rang"])) {
+            foreach ($_POST["rang"] as $rang) {
+                // Ha nincs benne az adatbázisban az aktuális rang
+                if (!in_array($rang,  $data["rang"])) {
 
-                        $stid = oci_parse($conn, 'INSERT INTO jog(felhasznalo_id, jog_nev) VALUES (:id, :rang)');
-                        oci_bind_by_name($stid, ':rang', $rang);
-                        oci_bind_by_name($stid, ':id', $data["id"]);
+                    $stid = oci_parse($conn, 'INSERT INTO jog(felhasznalo_id, jog_nev) VALUES (:id, :rang)');
+                    oci_bind_by_name($stid, ':rang', $rang);
+                    oci_bind_by_name($stid, ':id', $data["id"]);
 
-                        oci_execute($stid);
+                    oci_execute($stid);
 
-                        oci_free_statement($stid);
+                    oci_free_statement($stid);
 
-                        /*$stmt->bindParam(':nev', $rang, PDO::PARAM_STR, 32);
+                    /*$stmt->bindParam(':nev', $rang, PDO::PARAM_STR, 32);
                         $stmt->bindParam(':szemelyiigazolvanyszam', $szemelyiigazolvanyszam, PDO::PARAM_INT, 32);
                         try {
                             $stmt->execute();
@@ -162,24 +153,21 @@ if (isset($_GET["id"]) && !empty($_GET["id"])) {
                             }
                         }
                         */
-                    }
                 }
-                
-                // session-ben lévő rangok törlése
-                $_SESSION["felhasznalo"]["rang"] = array();
-                
-                // adatbázisban lévő rangok lekrédezése
-                $array = oci_parse($conn, "SELECT jog_nev from jog where felhasznalo_id = " . $_SESSION["felhasznalo"]["id"]);
-                oci_execute($array);
-                while ($row = oci_fetch_array($array)) {
-                    $_SESSION["felhasznalo"]["rang"][$row[0]] = true;
-                }
-                oci_free_statement($array);
-
-                $success = "Adatok mentve";
-            } else {
-                $pwd_error = "Nem egyezik meg a régi jelszó az adatbázisban lévő jelszóval. Kérlek azt a jelszót add meg!";
             }
+
+            // session-ben lévő rangok törlése
+            $_SESSION["felhasznalo"]["rang"] = array();
+
+            // adatbázisban lévő rangok lekrédezése
+            $array = oci_parse($conn, "SELECT jog_nev from jog where felhasznalo_id = " . $_SESSION["felhasznalo"]["id"]);
+            oci_execute($array);
+            while ($row = oci_fetch_array($array)) {
+                $_SESSION["felhasznalo"]["rang"][$row[0]] = true;
+            }
+            oci_free_statement($array);
+
+            $success = "Adatok mentve";
         }
     }
 } else {
@@ -254,42 +242,6 @@ if (isset($_GET["id"]) && !empty($_GET["id"])) {
             </select>
         </label>
         <br>
-
-
-        <?php if (!isset($_SESSION["felhasznalo"]["rang"]["admin"])) echo '<label for="inputPassword5" class="form-label">Régi Jelszó</label>'; ?>
-        <input type="<?php if (isset($_SESSION["felhasznalo"]["rang"]["admin"])) {
-                            echo 'hidden';
-                        } else {
-                            echo 'password';
-                        } ?>" id="inputPassword5" class="form-control <?php
-
-                        if (isset($_SESSION["felhasznalo"]["rang"]["admin"])) {
-                            echo " disabled ";
-                        }
-                        if (isset($_POST['passworld'])) {
-                            if (!isset($pwd_error)) {
-                                echo '"';
-                            } else {
-                                echo 'is-invalid"';
-                            }
-                            echo ' value="' . $_POST['passworld'] . '" ';
-                        }
-                        ?>" aria-labelledby=" passwordHelpBlock" name="passworld" required>
-        <?php
-        if (!isset($pwd_error)) {
-            // echo '<div class="valid-feedback"> Helyes jelszó </div>';
-        } else {
-            echo '<div class="invalid-feedback">' . $pwd_error . '</div>';
-        }
-        ?>
-
-        <?php if (!isset($_SESSION["felhasznalo"]["rang"]["admin"])) echo '<label for="inputPassword5" class="form-label">Új Jelszó</label>'; ?>
-        <input type="<?php if (isset($_SESSION["felhasznalo"]["rang"]["admin"])) {
-                            echo 'hidden';
-                        } else {
-                            echo 'password';
-                        } ?>" id="inputPassword5" class="form-control <?php if (isset($_POST['newpassworld'])) echo '" ' . 'value="' . $_POST['newpassworld'] . '" '; ?> aria-labelledby=" passwordHelpBlock" name="newpassworld" required>
-
         <button style="margin: 1rem;" type="submit" name="save" class="btn btn-primary" placeholder="Pista99">Mentés</button>
     </form>
 </div>
