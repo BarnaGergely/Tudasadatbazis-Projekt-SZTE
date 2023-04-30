@@ -19,24 +19,6 @@
                         <li><a class="dropdown-item <?php if (!isset($_SESSION["felhasznalo"]["rang"]["szerzo"])) echo "disabled";?>" href="cikk_iras.php">Írás</a></li>
                         <li><a class="dropdown-item <?php if (!isset($_SESSION["felhasznalo"]["rang"]["szerzo"])) echo "disabled";?>" href="altalam_irt.php">Általam írt cikkek</a></li>
                         <li><a class="dropdown-item <?php if (!isset($_SESSION["felhasznalo"]["rang"]["lektor"])) echo "disabled";?>" href="ellenorzesre.php">Ellenőrzes</a></li>
-
-                        <?php
-                        
-                            if(isset($_SESSION["felhasznalo"])){
-                                if(isset($_SESSION["felhasznalo"]["rang"]["szerzo"])){
-                                    echo '<li><a class="dropdown-item" href="kereses_kulcsszo.php">keresés kulcsszó alapján</a></li>';
-
-                                    echo '<li><a class="dropdown-item" href="cikk_iras.php">Írás</a></li>';
-                                    echo '<li><a class="dropdown-item " href="altalam_irt.php">Általam írt cikkek</a></li>';
-
-                                }
-                                
-                                if(isset($_SESSION["felhasznalo"]["rang"]["lektor"])){
-                                    echo '<li><a class="dropdown-item" href="ellenorzesre.php">Ellenőrzes</a></li>';
-                                }
-                            }
-                        
-                        ?>
                         
                     </ul>
                 </li>
