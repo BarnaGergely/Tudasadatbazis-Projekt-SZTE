@@ -37,7 +37,7 @@
                         <li><a class="dropdown-item <?php if (!isset($_SESSION["felhasznalo"]["rang"]["admin"])) echo "disabled"; ?>" href="statisztika.php">Statisztikák</a></li>
                         <li><a class="dropdown-item <?php if (isset($_SESSION["felhasznalo"])) echo "disabled"; ?>" href="bejelentkezes.php">Bejelentkezés</a></li>
                         <li><a class="dropdown-item <?php if (isset($_SESSION["felhasznalo"])) echo "disabled"; ?>" href="regisztracio.php">Regisztráció</a></li>
-                        <li><a class="dropdown-item <?php if (!isset($_SESSION["felhasznalo"])) echo "disabled"; ?>" href="felhasznalo-szerkeszto.php<?php if (isset($_SESSION["felhasznalo"])) echo "?id=" . $_SESSION["felhasznalo"]["id"]; ?>">Adataim módosítása</a></li>
+                        <li><a class="dropdown-item <?php if (!isset($_SESSION["felhasznalo"])) echo "disabled"; ?>" href="felhasznalo-szerkeszto-sajat.php<?php if (isset($_SESSION["felhasznalo"])) echo "?id=" . $_SESSION["felhasznalo"]["id"]; ?>">Adataim módosítása</a></li>
                         <li><a class="dropdown-item <?php if (!isset($_SESSION["felhasznalo"])) echo "disabled"; ?>" href="kijelentkezes.php">Kijelentkezés</a></li>
                     </ul>
                 </li>
