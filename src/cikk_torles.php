@@ -1,7 +1,7 @@
 <?php
 include 'resources/functions/config.php'; 
 // TODO: ha szerző akkor
-if(isset($_GET['id']) && isset($_SESSION["felhasznalo"]["rang"]["admin"])){
+if(isset($_GET['id']) && isset($_SESSION["felhasznalo"])){
     $v = oci_parse($conn,"DELETE FROM CIKK WHERE ID = ".$_GET['id']);
     oci_execute($v);
 
