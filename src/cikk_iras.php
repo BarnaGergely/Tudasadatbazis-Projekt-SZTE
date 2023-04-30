@@ -25,15 +25,15 @@ if (isset($_GET["id"])) {
     $kat = $row[1];
 }
 
-if(isset($_POST["submit"])){
+if(isset($_POST["cim"])){
     $cimcount = 0;
     $stmt = oci_parse($conn, "BEGIN :result := CIKKLETEZIKE(:cim); END;");
-    oci_bind_by_name($stmt, ':userid', $_POST["cim"]);
+    oci_bind_by_name($stmt, ':cim', $_POST["cim"]);
     oci_bind_by_name($stmt, ':result', $cimcount, PDO::PARAM_INT);
     oci_execute($stmt);
 
     if ($cimcount > 0) {
-        $uzenet = '<div class="alert alert-danger" role="alert">Már van ilyen nevű cikk az adatbázisban.</div>';
+        $uzenet = '<div class="alert alert-success" role="alert">Már van ilyen nevű cikk az adatbázisban.</div>';
     } else {
         $uzenet = '<div class="alert alert-danger" role="alert">Még nincs ilyen nevű cikk a rendszerben.</div>';
     }
@@ -90,15 +90,15 @@ if(isset($_POST["submit"])){
         </form>
         <hr>
         <form action="cikk_iras.php" method="post">
-        <fieldset>
-        <legend>Létezik e ilyen című cikk?</legend>
-            Cím: <input type="text" name="cim"><br>
-            <input class="btn btn-primary mt-3" type="submit" value="Ellenőriz">
-        </fieldset>
+            <fieldset>
+            <legend>Létezik e ilyen című cikk?</legend>
+                Cím: <input type="text" name="cim"><br>
+                <input class="btn btn-primary mt-3" type="submit" value="Ellenőriz">
+            </fieldset>
         </form>
         <?php
             if (isset($uzenet)){
-                
+                echo $uzenet;
             }
         ?>
 
