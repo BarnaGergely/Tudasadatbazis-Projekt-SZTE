@@ -47,7 +47,7 @@ if(isset($_POST["cim"])){
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tudásbázis</title>
+    <title>Tudásadatbázis</title>
 </head>
 
 <body>
@@ -81,7 +81,7 @@ if(isset($_POST["cim"])){
             }
             ?>
 
-            <label for="k">Adj hozzá keresőszavakat vesszővel elválasztva elválasztva</label>
+            <label for="k">Adj hozzá keresőszavakat vesszővel elválasztva</label>
             <input type="text" name="keresoszavak" id="k">
             <br>
 
@@ -91,7 +91,7 @@ if(isset($_POST["cim"])){
         <hr>
         <form action="cikk_iras.php" method="post">
             <fieldset>
-            <legend>Létezik e ilyen című cikk?</legend>
+            <legend>Létezik-e ilyen című cikk?</legend>
                 Cím: <input type="text" name="cim"><br>
                 <input class="btn btn-primary mt-3" type="submit" value="Ellenőriz">
             </fieldset>

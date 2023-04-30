@@ -7,7 +7,7 @@ if(isset($_GET['id']) && isset($_SESSION["felhasznalo"]["rang"]["admin"])){
 
     header("Location: cikk_kategoria.php");
 } else {
-    echo "Nincs jogod törölni vagy nem adtál meg ID-t.";
+    echo "Nincs jogod törölni, vagy nem adtál meg ID-t.";
 }
 
 
