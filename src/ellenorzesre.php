@@ -35,9 +35,24 @@ include "resources/functions/config.php";
                 $array = oci_parse($conn, "SELECT id,cim from CIKK where allapot like 'in process'");
                 oci_execute($array);
                 while ($row = oci_fetch_array($array)) {
+                    $tools="";
+                    if (isset($_SESSION["felhasznalo"]["rang"]["admin"])) {
+                        $tools = " <a href='cikk_iras.php?id=" . $row["ID"] . "'><button>Módosítás</button></a> <a href='cikk_torles.php?id=" . $row["ID"] . "'><button>Törlés</button></a>";
+                    } else {
+                        if (isset($_SESSION["felhasznalo"]["rang"]["szerzo"])) {
+                            if ($_SESSION["felhasznalo"]["id"] === $row["SZERZO_ID"]) {
+                                $tools = " <a href='cikk_iras.php?id=" . $row["ID"] . "'><button>Módosítás</button></a>";
+                            }
+                        }
+                        if (isset($_SESSION["felhasznalo"]["rang"]["lektor"])) {
+                            if ($_SESSION["felhasznalo"]["id"] === $row["LEKTOR_ID"]) {
+                                $tools = " <a href='cikk_iras.php?id=" . $row["ID"] . "'><button>Módosítás</button></a>";
+                            }
+                        }
+                    }
+
                     echo "<li>
-                        <a href='cikk_tartalom.php?cikkID=".$row[0]."'>" . $row[1] ."</a> <button><a href='cikk_valid.php?cikkID=".$row[0]."'>PUBLIKÁLHATÓ</button>
-                    </li>";
+                        <a href='cikk_tartalom.php?cikkID=".$row[0]."'>" . $row[1] ."</a> <a href='cikk_valid.php?cikkID=".$row[0]."'><button>PUBLIKÁLHATÓ</button></a>" . $tools . "</li>";
 
                     
                 }
