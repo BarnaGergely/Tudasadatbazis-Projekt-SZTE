@@ -4,7 +4,9 @@ include 'resources/functions/config.php';
 if(isset($_POST['content']) && isset($_POST['cim'])){
     // Frissítés
     if(isset($_POST['id'])){
-        $v = oci_parse($conn,"UPDATE CIKK SET CIM = '".$_POST['cim']."', TARTALOM = '".$_POST['content']."') WHERE id = ".$_POST['id']);
+        $sql = "UPDATE CIKK SET CIM = '".$_POST['cim']."', TARTALOM = '".$_POST['content']."' WHERE id = ".$_POST['id'];
+        echo($sql);
+        $v = oci_parse($conn, $sql);
         oci_execute($v);
 
         $v = oci_parse($conn,"UPDATE KATEGORIA SET KATEGORIA = '".$_POST['kat']."' WHERE CIKK_ID = ".$_POST['id']);
