@@ -37,7 +37,7 @@
                 }
                 ?>
             </li>
-            <li>Legtöbb cikket írt szerző(k):
+            <li>Legkevesebb cikket írt szerző(k):
                 <?php
                 $array = oci_parse($conn, "select felhasznalonev, email from felhasznalo where felhasznalo.id in (select szerzo_id from 
             (select szerzo_id, count(*) as c from cikk group by szerzo_id)
