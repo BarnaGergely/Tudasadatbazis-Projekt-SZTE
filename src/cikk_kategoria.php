@@ -47,7 +47,7 @@ include "resources/functions/config.php";
                     }
                     ?>
                 </select>
-                <input type="submit" value="Kereses">
+                <input type="submit" value="Keresés">
             </div>
         </form>
     </main>
