@@ -1,8 +1,7 @@
 <?php
-if (!$_SESSION["felhasznalo"]) {
+if (!$_SESSION["felhasznalo"]["rang"]["admin"]) {
     header("Location: index.php");
 }
-
 include_once 'resources/functions/config.php';
 require_once('resources/theme/header.php');
 
