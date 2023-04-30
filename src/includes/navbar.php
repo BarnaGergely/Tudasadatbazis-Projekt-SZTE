@@ -15,17 +15,12 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="cikk_kategoria.php">Listázás</a></li>
+                        <li><a class="dropdown-item" href="kereses_kulcsszo.php">Keresés Kulcsszó alapján</a></li>
 
                         <li><a class="dropdown-item <?php if (!isset($_SESSION["felhasznalo"]["rang"]["szerzo"])) echo "disabled";?>" href="cikk_iras.php">Írás</a></li>
                         <li><a class="dropdown-item <?php if (!isset($_SESSION["felhasznalo"]["rang"]["szerzo"])) echo "disabled";?>" href="altalam_irt.php">Általam írt cikkek</a></li>
                         <li><a class="dropdown-item <?php if (!isset($_SESSION["felhasznalo"]["rang"]["lektor"])) echo "disabled";?>" href="ellenorzesre.php">Ellenőrzés</a></li>
-                        <?php
-                        if(isset($_SESSION["felhasznalo"])){
-                                if(isset($_SESSION["felhasznalo"]["rang"]["szerzo"])){
-                                    echo '<li><a class="dropdown-item" href="kereses_kulcsszo.php">Keresés Kulcsszó alapján</a></li>';
-                                }
-                            }
-                        ?>
+
                     </ul>
                 </li>
                 <li class="nav-item">
