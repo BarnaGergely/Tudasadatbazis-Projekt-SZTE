@@ -56,8 +56,8 @@ if (isset($_POST["javitas"])) {
                 while ($row = oci_fetch_array($array)) {
                     $activity = 0;
                     $stmt = oci_parse($conn, "BEGIN :result := AKTIVITAS(:userid); END;");
-                    oci_bind_by_name($stmt, ':userid', $row[0]);
-                    oci_bind_by_name($stmt, ':result', $activity, PDO::PARAM_INT);
+                    oci_bind_by_name($stmt, ':userid', $row["ID"]);
+                    oci_bind_by_name($stmt, ':result', $activity, PDO::PARAM_STR);
                     oci_execute($stmt);
 
                     echo '<tr>';

@@ -36,15 +36,14 @@ if(!$_SESSION["felhasznalo"]["rang"]["szerzo"]){
         <hr>
         <ul>
             <?php
-                $array = oci_parse($conn, "SELECT ID,cim,allapot from CIKK where SZERZO_ID = :id");
+                $array = oci_parse($conn, "SELECT ID, cim, allapot, szerzo_id, lektor_id from CIKK where SZERZO_ID = :id");
 
                 oci_bind_by_name($array,":id",$_SESSION["felhasznalo"]["id"]);
                 
                 oci_execute($array);
-                
-
                 while ($row = oci_fetch_array($array)) {
-                    echo "<li>".$row[1]."</li>";
+                    $tools = " <a href='cikk_iras.php?id=" . $row["ID"] . "'><button>Módosítás</button></a> <a href='cikk_torles.php?id=" . $row["ID"] . "'><button>Törlés</button></a>";
+                    echo "<li>".$row[1]." ".$tools."</li>";
                 }
             
 

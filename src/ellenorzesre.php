@@ -32,20 +32,15 @@ include "resources/functions/config.php";
         <hr>
         <ul>
             <?php
-                $array = oci_parse($conn, "SELECT id,cim from CIKK where allapot like 'in process'");
+                $array = oci_parse($conn, "SELECT id,cim, lektor_id, szerzo_id from CIKK where allapot like 'in process'");
                 oci_execute($array);
                 while ($row = oci_fetch_array($array)) {
                     $tools="";
-                    if (isset($_SESSION["felhasznalo"]["rang"]["admin"])) {
+                    if (isset($_SESSION["felhasznalo"]["rang"]["admin"]) || isset($_SESSION["felhasznalo"]["rang"]["lektor"])) {
                         $tools = " <a href='cikk_iras.php?id=" . $row["ID"] . "'><button>Módosítás</button></a> <a href='cikk_torles.php?id=" . $row["ID"] . "'><button>Törlés</button></a>";
                     } else {
                         if (isset($_SESSION["felhasznalo"]["rang"]["szerzo"])) {
                             if ($_SESSION["felhasznalo"]["id"] === $row["SZERZO_ID"]) {
-                                $tools = " <a href='cikk_iras.php?id=" . $row["ID"] . "'><button>Módosítás</button></a>";
-                            }
-                        }
-                        if (isset($_SESSION["felhasznalo"]["rang"]["lektor"])) {
-                            if ($_SESSION["felhasznalo"]["id"] === $row["LEKTOR_ID"]) {
                                 $tools = " <a href='cikk_iras.php?id=" . $row["ID"] . "'><button>Módosítás</button></a>";
                             }
                         }
