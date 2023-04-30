@@ -1,9 +1,10 @@
 <?php
-if (!$_SESSION["felhasznalo"]["rang"]["admin"]) {
-    header("Location: index.php");
-}
 include_once 'resources/functions/config.php';
 require_once('resources/theme/header.php');
+
+if (!isset($_SESSION["felhasznalo"])) {
+    header("Location: index.php");
+}
 
 // TODO: rangok lekérdezése az adatbázisból
 $osszesrang = [
