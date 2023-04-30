@@ -25,20 +25,65 @@
 
     <main class="container">
         <h1>Statisztikák</h1>
-        <p>Legtöbb cikket írt szerző:
-            <?php
-            $array = oci_parse($conn, "select szerzo_id,c from 
-            (select szerzo_id,count(*) as c from cikk group by szerzo_id)
-            where c = (select max(count(*)) from cikk group by szerzo_id)");
-            oci_execute($array);
-            $row = oci_fetch_array($array);
-            echo $row[0]." ".$row[1];
-            ?>
-        </p>
-        <p>Legkevesebb kommentet kapott cikk címe: </p>
-        <p>Legtöbb és legkevesebb cikket írt szerző: </p>
-        <p>Legkevesebb cikket írt szerző: </p>
-        <p>....</p>
+        <ul>
+            <li>Legtöbb cikket írt szerző(k):
+                <?php
+                $array = oci_parse($conn, "select felhasznalonev, email from felhasznalo where felhasznalo.id in (select szerzo_id from 
+            (select szerzo_id, count(*) as c from cikk group by szerzo_id)
+            where c = (select max(count(*)) from cikk group by szerzo_id))");
+                oci_execute($array);
+                while ($row = oci_fetch_array($array)) {
+                    echo $row[0] . " (" . $row[1] . "), ";
+                }
+                ?>
+            </li>
+            <li>Legtöbb cikket írt szerző(k):
+                <?php
+                $array = oci_parse($conn, "select felhasznalonev, email from felhasznalo where felhasznalo.id in (select szerzo_id from 
+            (select szerzo_id, count(*) as c from cikk group by szerzo_id)
+            where c = (select min(count(*)) from cikk group by szerzo_id))");
+                oci_execute($array);
+                while ($row = oci_fetch_array($array)) {
+                    echo $row[0] . " (" . $row[1] . "), ";
+                }
+                ?>
+            </li>
+            <li>legkevesebbet validált lektor(ok):
+                <?php
+                $array = oci_parse($conn, "select felhasznalonev, email from felhasznalo where felhasznalo.id in (select szerzo_id from 
+            (select szerzo_id, count(*) as c from cikk group by szerzo_id)
+            where c = (select min(count(*)) from cikk group by szerzo_id))");
+                oci_execute($array);
+                while ($row = oci_fetch_array($array)) {
+                    echo $row[0] . " (" . $row[1] . "), ";
+                }
+                ?>
+            </li>
+            <li>legtöbbet validált lektor(ok):
+                <?php
+                $array = oci_parse($conn, "select felhasznalonev, email from felhasznalo where felhasznalo.id in (select szerzo_id from 
+            (select szerzo_id, count(*) as c from cikk group by szerzo_id)
+            where c = (select max(count(*)) from cikk group by szerzo_id))");
+                oci_execute($array);
+                while ($row = oci_fetch_array($array)) {
+                    echo $row[0] . " (" . $row[1] . "), ";
+                }
+                ?>
+            </li>
+            <li>Legtöbb megjegyzést írt felhasználó(k):
+                <?php
+                $array = oci_parse($conn, "select felhasznalonev, email from felhasznalo where felhasznalo.id in (
+                    select felhasznalo_id from (
+                    select megjegyzes.felhasznalo_id,count(*) as c from megjegyzes inner join cikk on cikk.szerzo_id = megjegyzes.felhasznalo_id group by megjegyzes.felhasznalo_id order by count(*)
+                    ))");
+                oci_execute($array);
+                while ($row = oci_fetch_array($array)) {
+                    echo $row[0] . " (" . $row[1] . "), ";
+                }
+                ?>
+            </li>
+        </ul>
+
     </main>
 
     <?php include "includes/footer.php"; ?>
